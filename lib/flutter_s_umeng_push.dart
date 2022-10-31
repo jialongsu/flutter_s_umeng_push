@@ -2,12 +2,16 @@
  * @Author: Arno.su
  * @Date: 2022-10-28 13:10:23
  * @LastEditors: Arno.su
- * @LastEditTime: 2022-10-31 15:43:56
+ * @LastEditTime: 2022-10-31 17:38:09
  */
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 ///定义回调
 typedef Callback = void Function(String result);
+typedef CallbackMsg = void Function(MessageBody result);
 
 class FlutterUmengPush {
   static const methodChannel = MethodChannel('flutter_s_umeng_push');
@@ -53,8 +57,8 @@ class FlutterUmengPush {
   /// onReceiveNotification：接收到消息回调
   /// onOpenNotification：点击消息回调
   static void addEventHandler({
-    Callback? onReceiveNotification,
-    Callback? onOpenNotification,
+    CallbackMsg? onReceiveNotification,
+    CallbackMsg? onOpenNotification,
   }) {
     _callback.receiveNotification = onReceiveNotification;
     _callback.openNotification = onOpenNotification;
@@ -68,7 +72,7 @@ class FlutterUmengPush {
 
   /// 设置自定义消息回调
   /// 仅Android方法
-  static void setMessageCallback(Callback? callback) {
+  static void setMessageCallback(CallbackMsg? callback) {
     _callback.messageCallback = callback;
   }
 
@@ -113,23 +117,52 @@ class FlutterUmengPush {
   }
 }
 
+class MessageBody {
+  /// 消息标题
+  String? title;
+
+  /// 消息副标题，仅ios
+  String? subtitle;
+
+  /// 消息内容
+  String? content;
+
+  /// 消息id
+  String? msgId;
+
+  /// 自定义参数
+  Map? extra;
+
+  MessageBody({this.title, this.subtitle, this.content, this.msgId, this.extra});
+
+  Map<String, dynamic> toJson() {
+    return {
+      "title": title,
+      "subtitle": subtitle,
+      "content": content,
+      "msgId": msgId,
+      "extra": extra,
+    };
+  }
+}
+
 class _Callbacks {
   Callback? tokenCallback;
-  Callback? messageCallback;
-  Callback? receiveNotification;
-  Callback? openNotification;
+  CallbackMsg? messageCallback;
+  CallbackMsg? receiveNotification;
+  CallbackMsg? openNotification;
 
   _Callbacks(MethodChannel channel) {
     channel.setMethodCallHandler((call) async {
       switch (call.method) {
         case "onReceiveNotification":
           if (receiveNotification != null) {
-            receiveNotification!(call.arguments);
+            receiveNotification!(groupMessageBody(call));
           }
           break;
         case "onOpenNotification":
           if (openNotification != null) {
-            openNotification!(call.arguments);
+            openNotification!(groupMessageBody(call));
           }
           break;
         case "onToken":
@@ -139,13 +172,48 @@ class _Callbacks {
           }
           break;
         case "onMessage":
-          var message = call.arguments;
           if (messageCallback != null) {
-            messageCallback!(message);
+            messageCallback!(groupMessageBody(call));
           }
           break;
         default:
       }
     });
+  }
+
+  MessageBody groupMessageBody(MethodCall call) {
+    String? args = call.arguments;
+    MessageBody messageBody = MessageBody();
+
+    if (args != null && args.isNotEmpty) {
+      Map json = jsonDecode(args);
+      if (Platform.isIOS) {
+        Map aps = json['aps'];
+        Map alert = aps['alert'];
+        Map extra = {};
+        json.forEach((key, value) {
+          if (key != 'aps' && key != 'd' && key != 'p') {
+            extra[key] = value;
+          }
+        });
+        messageBody = MessageBody(
+          title: alert['title'],
+          subtitle: alert['subtitle'],
+          content: alert['body'],
+          msgId: json['d'],
+          extra: extra,
+        );
+      } else {
+        Map body = json['body'];
+        Map extra = json['extra'];
+        messageBody = MessageBody(
+          title: body['title'],
+          content: body['text'],
+          msgId: json['msg_id'],
+          extra: extra,
+        );
+      }
+    }
+    return messageBody;
   }
 }
