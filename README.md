@@ -1,22 +1,22 @@
-# flutter_umeng_push
+# flutter_s_umeng_push
 
 友盟推送的flutter插件，支持Android和ios
 
 ## 安装
 
-在pubspec.yaml 文件中添加flutter_umeng_push依赖:
+在pubspec.yaml 文件中添加flutter_s_umeng_push依赖:
 
 ```javascript
 
 dependencies:
-  flutter_umeng_push: ^${latestVersion}
+  flutter_s_umeng_push: ^${latestVersion}
   
 ```
 
 ## 使用
 
 ```javascript
-import 'package:flutter_umeng_push/flutter_umeng_push.dart';
+import 'package:flutter_s_umeng_push/flutter_s_umeng_push.dart';
 
 ///初始化友盟sdk，在所有方法使用之前
 FlutterUmengPush.init(
