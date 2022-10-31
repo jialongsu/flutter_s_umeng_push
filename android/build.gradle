@@ -1,0 +1,43 @@
+group 'com.um.push.flutter_umeng_push'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+}
+
+dependencies {
+    //友盟基础组件（必须）
+    implementation 'com.umeng.umsdk:common:9.5.2'
+    implementation 'com.umeng.umsdk:asms:1.6.3'
+    //友盟推送组件
+    implementation 'com.umeng.umsdk:push:6.5.5'
+}
