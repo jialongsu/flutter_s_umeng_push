@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - flutter_umeng_push (0.0.1):
+  - flutter_s_umeng_push (0.0.1):
     - Flutter
     - UMCCommonLog
     - UMCommon
@@ -15,7 +15,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_umeng_push (from `.symlinks/plugins/flutter_umeng_push/ios`)
+  - flutter_s_umeng_push (from `.symlinks/plugins/flutter_s_umeng_push/ios`)
 
 SPEC REPOS:
   trunk:
@@ -27,12 +27,12 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_umeng_push:
-    :path: ".symlinks/plugins/flutter_umeng_push/ios"
+  flutter_s_umeng_push:
+    :path: ".symlinks/plugins/flutter_s_umeng_push/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  flutter_umeng_push: 687485a1d7545b99a2e5d084c04d2cca91a27867
+  flutter_s_umeng_push: d562d00dfffd3496c2f29564309b9eaf7b0424be
   UMCCommonLog: bea707e50c85cef4b0eb47cc5c7226bb843245ca
   UMCommon: 37fe35f498e92cf57bbb06a086f02915fc35f211
   UMDevice: 053478c4b4d7292f31f0a275c227d3c4007a5571

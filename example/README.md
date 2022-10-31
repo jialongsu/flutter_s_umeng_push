@@ -1,6 +1,6 @@
-# flutter_umeng_push_example
+# flutter_s_umeng_push_example
 
-Demonstrates how to use the flutter_umeng_push plugin.
+Demonstrates how to use the flutter_s_umeng_push plugin.
 
 ## Getting Started
 

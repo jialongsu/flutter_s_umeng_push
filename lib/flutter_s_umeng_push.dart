@@ -2,7 +2,7 @@
  * @Author: Arno.su
  * @Date: 2022-10-28 13:10:23
  * @LastEditors: Arno.su
- * @LastEditTime: 2022-10-31 10:30:40
+ * @LastEditTime: 2022-10-31 15:43:56
  */
 import 'package:flutter/services.dart';
 
@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 typedef Callback = void Function(String result);
 
 class FlutterUmengPush {
-  static const methodChannel = MethodChannel('flutter_umeng_push');
+  static const methodChannel = MethodChannel('flutter_s_umeng_push');
 
   static final _Callbacks _callback = _Callbacks(methodChannel);
 
@@ -25,8 +25,10 @@ class FlutterUmengPush {
 
   /// 初始化um sdk
   /// appKey 友盟应用 appKey
+  /// messageSecret 友盟应用 messageSecret 仅Android传
   /// channel 分享渠道
   /// logEnabled 是否开启日志
+  /// notificationOnForeground 设置App处于前台时是否显示通知， 默认为true
   /// 在调用所有方法前必须调用
   ///
   static Future<dynamic> init({
@@ -34,11 +36,13 @@ class FlutterUmengPush {
     required String messageSecret,
     String channel = "umengpush",
     bool logEnabled = false,
+    bool notificationOnForeground = true,
   }) async {
     Map<dynamic, dynamic> result = await methodChannel.invokeMethod('umInit', {
       "appKey": appKey,
       "messageSecret": messageSecret,
       "channel": channel,
+      "notificationOnForeground": notificationOnForeground,
       "logEnabled": logEnabled,
     });
     return result;

@@ -1,4 +1,4 @@
-package com.um.push.flutter_umeng_push;
+package com.um.push.flutter_s_umeng_push;
 
 import android.app.Notification;
 import android.content.Context;
@@ -34,8 +34,8 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
-/** FlutterUmengPushPlugin */
-public class FlutterUmengPushPlugin implements FlutterPlugin, MethodCallHandler {
+/** FlutterSUmengPushPlugin */
+public class FlutterSUmengPushPlugin implements FlutterPlugin, MethodCallHandler {
   private MethodChannel channel;
 
   private static final String TAG = "UPush";
@@ -47,7 +47,7 @@ public class FlutterUmengPushPlugin implements FlutterPlugin, MethodCallHandler 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     mContext = flutterPluginBinding.getApplicationContext();
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_umeng_push");
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_s_umeng_push");
     channel.setMethodCallHandler(this);
   }
 
@@ -98,9 +98,12 @@ public class FlutterUmengPushPlugin implements FlutterPlugin, MethodCallHandler 
     String messageSecret = (String) params.get("messageSecret");
     String channel = (String) params.get("channel");
     Boolean logEnabled = (Boolean) params.get("logEnabled");
+    Boolean notificationOnForeground = (Boolean) params.get("notificationOnForeground");
     UMConfigure.preInit(mContext, appKey, channel);
     UMConfigure.init(mContext, appKey, channel, UMConfigure.DEVICE_TYPE_PHONE, messageSecret);
     UMConfigure.setLogEnabled(logEnabled != null ? logEnabled : false);
+    // 设置App处于前台时是否显示通知
+    PushAgent.getInstance(mContext).setNotificationOnForeground(Boolean.TRUE.equals(notificationOnForeground));
     //注册推送
     PushAgent.getInstance(mContext).register(new UPushRegisterCallback() {
 

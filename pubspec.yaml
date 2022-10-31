@@ -21,7 +21,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.um.push.flutter_umeng_push
-        pluginClass: FlutterUmengPushPlugin
+        package: com.um.push.flutter_s_umeng_push
+        pluginClass: FlutterSUmengPushPlugin
       ios:
-        pluginClass: FlutterUmengPushPlugin
+        pluginClass: FlutterSUmengPushPlugin

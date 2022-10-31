@@ -1,4 +1,4 @@
-group 'com.um.push.flutter_umeng_push'
+group 'com.um.push.flutter_s_umeng_push'
 version '1.0'
 
 buildscript {

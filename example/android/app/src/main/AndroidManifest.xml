@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.um.push.flutter_umeng_push_example">
+    package="com.um.push.flutter_s_umeng_push_example">
    <application
-        android:label="flutter_umeng_push_example"
+        android:label="flutter_s_umeng_push_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

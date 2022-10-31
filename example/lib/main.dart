@@ -4,7 +4,7 @@
  * @Author: Arno.su
  * @Date: 2022-10-28 13:10:25
  * @LastEditors: Arno.su
- * @LastEditTime: 2022-10-31 11:00:43
+ * @LastEditTime: 2022-10-31 16:08:06
  */
 import 'dart:async';
 
@@ -35,9 +35,12 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     /// 初始化友盟推送
     await FlutterUmengPush.init(
-      appKey: '你的友盟应用appkey',
-      messageSecret: '你的友盟应用messageSecret',
-      logEnabled: false,
+      appKey: '635a1553d76a2d6aba4bbb67',
+      messageSecret: '23bb88a433adff723fdee493a2341a19',
+      // appKey: '60519766b8c8d45c13a16fa0',
+      // messageSecret: 'eup7wbxgnmlglk6s2xbdumdxwkl3tmwc',
+      notificationOnForeground: true,
+      logEnabled: true,
     );
 
     /// 监听推送事件

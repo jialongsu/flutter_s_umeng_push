@@ -1,4 +1,4 @@
-package com.um.push.flutter_umeng_push_example;
+package com.um.push.flutter_s_umeng_push_example;
 
 import io.flutter.embedding.android.FlutterActivity;
 
