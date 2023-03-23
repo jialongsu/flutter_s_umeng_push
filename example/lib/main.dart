@@ -4,9 +4,10 @@
  * @Author: Arno.su
  * @Date: 2022-10-28 13:10:25
  * @LastEditors: Arno.su
- * @LastEditTime: 2022-10-31 17:41:49
+ * @LastEditTime: 2022-11-02 17:12:07
  */
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_s_umeng_push/flutter_s_umeng_push.dart';
@@ -35,9 +36,11 @@ class _MyAppState extends State<MyApp> {
   Future<void> initPlatformState() async {
     /// 初始化友盟推送
     await FlutterUmengPush.init(
-      appKey: '友盟Appkey',
-      messageSecret: '友盟messageSecret',
-      logEnabled: true,
+      appKey: Platform.isIOS ? '60519766b8c8d45c13a16fa0' : '635a1553d76a2d6aba4bbb67',
+      messageSecret: '23bb88a433adff723fdee493a2341a19',
+      // appKey: '友盟Appkey',
+      // messageSecret: '友盟messageSecret',
+      logEnabled: false,
     );
 
     /// 监听推送事件

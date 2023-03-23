@@ -13,5 +13,66 @@
   <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED"/>
   <uses-permission android:name="android.permission.GET_TASKS"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+  <application>
+    <activity
+        android:name=".MfrMessageActivity"
+        android:exported="true"
+        android:launchMode="singleTask">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data
+            android:host="${applicationId}"
+            android:path="/thirdpush"
+            android:scheme="agoo" />
+      </intent-filter>
+    </activity>
+
+    <receiver
+        android:name=".MfrMzMessageReceiver"
+        android:exported="true">
+      <intent-filter>
+        <!-- 接收push消息 -->
+        <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
+        <!-- 接收register消息 -->
+        <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK" />
+        <!-- 接收unregister消息-->
+        <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK" />
+        <!-- 兼容低版本Flyme3推送服务配置 -->
+        <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
+        <action android:name="com.meizu.c2dm.intent.RECEIVE" />
+        <category android:name="${applicationId}" />
+      </intent-filter>
+    </receiver>
+
+    <!--api level 31的时候，com.umeng.umsdk:oppo-umengaccs:1.0.8-fix库缺失android:exported，覆盖补上Start-->
+    <service
+        android:name="com.heytap.msp.push.service.CompatibleDataMessageCallbackService"
+        android:permission="com.coloros.mcs.permission.SEND_MCS_MESSAGE" android:exported="true">
+      <intent-filter>
+        <action android:name="com.coloros.mcs.action.RECEIVE_MCS_MESSAGE" />
+      </intent-filter>
+    </service> <!-- 兼容Q以下版本 -->
+
+    <service
+        android:name="com.heytap.msp.push.service.DataMessageCallbackService"
+        android:permission="com.heytap.mcs.permission.SEND_PUSH_MESSAGE" android:exported="true">
+      <intent-filter>
+        <action android:name="com.heytap.mcs.action.RECEIVE_MCS_MESSAGE" />
+        <action android:name="com.heytap.msp.push.RECEIVE_MCS_MESSAGE" />
+      </intent-filter>
+    </service> <!-- 兼容Q版本 -->
+
+    <!--api level 31的时候，com.umeng.umsdk:vivo-umengaccs:1.1.6库缺失android:exported，覆盖补上Start-->
+<!--    <receiver android:name="org.android.agoo.vivo.PushMessageReceiverImpl" android:exported="true">-->
+<!--      <intent-filter>-->
+<!--        &lt;!&ndash; 接收push消息 &ndash;&gt;-->
+<!--        <action android:name="com.vivo.pushclient.action.RECEIVE" />-->
+<!--      </intent-filter>-->
+<!--    </receiver>-->
+  </application>
 
 </manifest>

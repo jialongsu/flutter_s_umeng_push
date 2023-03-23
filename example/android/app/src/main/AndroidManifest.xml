@@ -30,5 +30,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <meta-data android:name="com.vivo.push.app_id" android:value="105602402" />
+       <meta-data android:name="com.vivo.push.api_key" android:value="2501744247052ee7dbc1de1cdefdece9" />
+       <meta-data android:name="com.huawei.hms.client.appid" android:value="appid=xxx" />
     </application>
 </manifest>

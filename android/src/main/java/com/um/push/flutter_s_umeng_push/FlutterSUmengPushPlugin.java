@@ -2,6 +2,8 @@ package com.um.push.flutter_s_umeng_push;
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -18,6 +20,11 @@ import com.umeng.message.common.UPLog;
 import com.umeng.message.common.inter.ITagManager;
 import com.umeng.message.entity.UMessage;
 
+import org.android.agoo.huawei.HuaWeiRegister;
+import org.android.agoo.mezu.MeizuRegister;
+import org.android.agoo.oppo.OppoRegister;
+import org.android.agoo.vivo.VivoRegister;
+import org.android.agoo.xiaomi.MiPushRegistar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -99,9 +106,11 @@ public class FlutterSUmengPushPlugin implements FlutterPlugin, MethodCallHandler
     String channel = (String) params.get("channel");
     Boolean logEnabled = (Boolean) params.get("logEnabled");
     Boolean notificationOnForeground = (Boolean) params.get("notificationOnForeground");
+
     UMConfigure.preInit(mContext, appKey, channel);
     UMConfigure.init(mContext, appKey, channel, UMConfigure.DEVICE_TYPE_PHONE, messageSecret);
     UMConfigure.setLogEnabled(logEnabled != null ? logEnabled : false);
+    PushAgent.getInstance(mContext).setPushCheck(true);
     // 设置App处于前台时是否显示通知
     PushAgent.getInstance(mContext).setNotificationOnForeground(Boolean.TRUE.equals(notificationOnForeground));
     //注册推送
@@ -120,6 +129,43 @@ public class FlutterSUmengPushPlugin implements FlutterPlugin, MethodCallHandler
         result.error(errCode, "'error'" ,errDesc);
       }
     });
+    // 注册厂商通道
+    try {
+      String xiaomiAppId = (String) params.get("xiaomi_app_id");
+      String xiaomiAppKey = (String) params.get("xiaomi_app_key");
+      String meizuAppId = (String) params.get("meizu_app_id");
+      String meizuAppKey = (String) params.get("meizu_app_key");
+      String oppoAppKey = (String) params.get("oppo_app_key");
+      String oppoAppMasterSecret = (String) params.get("oppo_app_masterSecret");
+      ApplicationInfo appInfo = mContext.getPackageManager().getApplicationInfo(mContext.getPackageName(), PackageManager.GET_META_DATA);
+      String test_name = appInfo.metaData.getString("test_name");
+      Object vivoAppId = appInfo.metaData.get("com.vivo.push.app_id");
+      String vivoAppKey = appInfo.metaData.getString("com.vivo.push.api_key");
+      String huaweiAppId = appInfo.metaData.getString("com.huawei.hms.client.appid");
+
+      // 小米推送
+      if(xiaomiAppId != null && xiaomiAppKey != null) {
+        MiPushRegistar.register(mContext, xiaomiAppId, xiaomiAppKey, false);
+      }
+      // 华为推送注册
+      if(huaweiAppId != null) {
+        HuaWeiRegister.register(mContext);
+      }
+      // 魅族推送注册
+      if(meizuAppId != null && meizuAppKey != null) {
+        MeizuRegister.register(mContext, meizuAppId, meizuAppKey);
+      }
+      // oppo推送注册
+      if(oppoAppKey != null && oppoAppMasterSecret != null) {
+        OppoRegister.register(mContext, oppoAppKey, oppoAppMasterSecret);
+      }
+      // vivo推送注册
+      if(vivoAppId != null && vivoAppKey != null) {
+        VivoRegister.register(mContext);
+      }
+    } catch (PackageManager.NameNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
   private void register(final Result result) {

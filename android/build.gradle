@@ -5,10 +5,12 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://developer.huawei.com/repo/'}
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.huawei.agconnect:agcp:1.6.0.300'
     }
 }
 
@@ -16,6 +18,8 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://developer.huawei.com/repo/'}
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
 }
 
@@ -31,13 +35,29 @@ android {
 
     defaultConfig {
         minSdkVersion 16
+        consumerProguardFiles 'consumer-proguard-rules.txt'
     }
 }
 
 dependencies {
     //友盟基础组件（必须）
-    implementation 'com.umeng.umsdk:common:9.5.2'
+    implementation 'com.umeng.umsdk:common:9.5.4'
     implementation 'com.umeng.umsdk:asms:1.6.3'
     //友盟推送组件
-    implementation 'com.umeng.umsdk:push:6.5.5'
+    implementation 'com.umeng.umsdk:push:6.5.7'
+    // 小米推送
+    implementation 'com.umeng.umsdk:xiaomi-umengaccs:1.3.2'
+    implementation 'com.umeng.umsdk:xiaomi-push:5.1.2'
+    // 华为推送
+    implementation 'com.umeng.umsdk:huawei-umengaccs:1.4.1'
+    implementation 'com.huawei.hms:push:6.7.0.300'
+    // 魅族推送
+    implementation 'com.umeng.umsdk:meizu-umengaccs:1.2.0'
+    implementation 'com.umeng.umsdk:meizu-push:4.1.4'
+    // oppo推送
+    implementation 'com.umeng.umsdk:oppo-umengaccs:1.1.0'
+    implementation 'com.umeng.umsdk:oppo-push:3.1.0'
+    // vivo推送
+    implementation 'com.umeng.umsdk:vivo-umengaccs:1.2.0'
+    implementation 'com.umeng.umsdk:vivo-push:3.0.0.4'
 }

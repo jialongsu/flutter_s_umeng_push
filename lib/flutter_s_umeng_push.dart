@@ -2,7 +2,7 @@
  * @Author: Arno.su
  * @Date: 2022-10-28 13:10:23
  * @LastEditors: Arno.su
- * @LastEditTime: 2022-10-31 17:38:09
+ * @LastEditTime: 2022-11-07 17:59:32
  */
 import 'dart:convert';
 import 'dart:io';
@@ -28,12 +28,22 @@ class FlutterUmengPush {
   static const methodGetTags = 'getTags';
 
   /// 初始化um sdk
-  /// appKey 友盟应用 appKey
-  /// messageSecret 友盟应用 messageSecret 仅Android传
-  /// channel 分享渠道
-  /// logEnabled 是否开启日志
-  /// notificationOnForeground 设置App处于前台时是否显示通知， 默认为true
-  /// 在调用所有方法前必须调用
+  /// * appKey 友盟应用 appKey
+  /// * messageSecret 友盟应用 messageSecret 仅Android传
+  /// * channel 分享渠道
+  /// * logEnabled 是否开启日志
+  /// * notificationOnForeground 设置App处于前台时是否显示通知， 默认为true
+  ///
+  /// 推送厂商通道，传入对应的值将自动开启
+  /// * xiaomiAppId 小米AppId
+  /// * xiaomiAppKey 小米AppKey
+  /// * meizuAppId 魅族AppId
+  /// * meizuAppKey 魅族AppKey
+  /// * oppoAppKey oppo应用AppKey
+  /// * oppoAppMasterSecret oppo应用AppMasterSecret
+  /// * 华为与vivo需在AndroidManifest.xml中配置
+  ///
+  /// 在调用所有方法前必须调用init方法
   ///
   static Future<dynamic> init({
     required String appKey,
@@ -41,6 +51,12 @@ class FlutterUmengPush {
     String channel = "umengpush",
     bool logEnabled = false,
     bool notificationOnForeground = true,
+    String? xiaomiAppId,
+    String? xiaomiAppKey,
+    String? meizuAppId,
+    String? meizuAppKey,
+    String? oppoAppKey,
+    String? oppoAppMasterSecret,
   }) async {
     Map<dynamic, dynamic> result = await methodChannel.invokeMethod('umInit', {
       "appKey": appKey,
@@ -48,6 +64,12 @@ class FlutterUmengPush {
       "channel": channel,
       "notificationOnForeground": notificationOnForeground,
       "logEnabled": logEnabled,
+      "xiaomi_app_id": xiaomiAppId,
+      "xiaomi_app_key": xiaomiAppKey,
+      "meizu_app_id": meizuAppId,
+      "meizu_app_key": meizuAppKey,
+      "oppo_app_key": oppoAppKey,
+      "oppo_app_masterSecret": oppoAppMasterSecret,
     });
     return result;
   }
@@ -205,7 +227,7 @@ class _Callbacks {
         );
       } else {
         Map body = json['body'];
-        Map extra = json['extra'];
+        Map? extra = json['extra'];
         messageBody = MessageBody(
           title: body['title'],
           content: body['text'],
