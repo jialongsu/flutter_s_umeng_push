@@ -1,3 +1,9 @@
+/*
+ * @Author: Arno.su
+ * @Date: 2022-11-02 13:45:48
+ * @LastEditors: Arno.su
+ * @LastEditTime: 2023-08-15 11:26:34
+ */
 package com.um.push.flutter_s_umeng_push;
 
 import android.app.Activity;

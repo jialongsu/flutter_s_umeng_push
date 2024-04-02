@@ -138,7 +138,6 @@ public class FlutterSUmengPushPlugin implements FlutterPlugin, MethodCallHandler
       String oppoAppKey = (String) params.get("oppo_app_key");
       String oppoAppMasterSecret = (String) params.get("oppo_app_masterSecret");
       ApplicationInfo appInfo = mContext.getPackageManager().getApplicationInfo(mContext.getPackageName(), PackageManager.GET_META_DATA);
-      String test_name = appInfo.metaData.getString("test_name");
       Object vivoAppId = appInfo.metaData.get("com.vivo.push.app_id");
       String vivoAppKey = appInfo.metaData.getString("com.vivo.push.api_key");
       String huaweiAppId = appInfo.metaData.getString("com.huawei.hms.client.appid");

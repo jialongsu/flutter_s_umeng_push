@@ -17,7 +17,7 @@
 
   <application>
     <activity
-        android:name=".MfrMessageActivity"
+        android:name="${applicationId}.MfrMessageActivity"
         android:exported="true"
         android:launchMode="singleTask">
       <intent-filter>
