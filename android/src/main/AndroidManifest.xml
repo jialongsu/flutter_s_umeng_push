@@ -32,7 +32,7 @@
     </activity>
 
     <receiver
-        android:name=".MfrMzMessageReceiver"
+        android:name="${applicationId}.MfrMzMessageReceiver"
         android:exported="true">
       <intent-filter>
         <!-- 接收push消息 -->
