@@ -9,12 +9,14 @@ package com.um.push.flutter_s_umeng_push;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.umeng.message.common.UPLog;
 import com.umeng.message.UmengNotifyClick;
 import com.umeng.message.entity.UMessage;
 
 import androidx.annotation.Nullable;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author sujialong
@@ -29,7 +31,9 @@ class MfrMessageActivity extends Activity {
         @Override
         protected void onMessage(UMessage uMessage) {
             final String body = uMessage.getRaw().toString();
-            Log.d(TAG, "body: " + body);
+            UPLog.d(TAG, "body: " + body);
+            launchApp(uMessage);
+            finish();
         }
     };
 
@@ -43,5 +47,36 @@ class MfrMessageActivity extends Activity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         mNotificationClick.onNewIntent(intent);
+    }
+
+    private void launchApp(UMessage msg) {
+        try {
+            String pkg = getPackageName();
+            Intent intent = getPackageManager().getLaunchIntentForPackage(pkg);
+            if (intent == null) {
+                UPLog.e(TAG, "can't find launch activity:" + pkg);
+                return;
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            addMessageToIntent(intent, msg);
+            startActivity(intent);
+            UPLog.d(TAG, "start app: " + pkg);
+        } catch (Throwable e) {
+            UPLog.e(TAG, "start app fail:", e.getMessage());
+        }
+    }
+
+    private void addMessageToIntent(Intent intent, UMessage msg) {
+        if (intent == null || msg == null || msg.getExtra() == null) {
+            return;
+        }
+        Set<Map.Entry<String, String>> entrySet = msg.getExtra().entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (key != null) {
+                intent.putExtra(key, value);
+            }
+        }
     }
 }
