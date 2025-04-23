@@ -17,7 +17,7 @@
 
   <application>
     <activity
-        android:name=".MfrMessageActivity"
+        android:name="com.um.push.flutter_s_umeng_push.MfrMessageActivity"
         android:exported="true"
         android:launchMode="singleTask"
         android:screenOrientation="behind"
@@ -34,7 +34,7 @@
     </activity>
 
     <receiver
-        android:name="${applicationId}.MfrMzMessageReceiver"
+        android:name="org.android.agoo.mezu.MeizuPushReceiver"
         android:exported="true">
       <intent-filter>
         <!-- 接收push消息 -->

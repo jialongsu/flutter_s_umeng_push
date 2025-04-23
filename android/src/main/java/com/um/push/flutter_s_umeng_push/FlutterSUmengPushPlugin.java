@@ -1,5 +1,6 @@
 package com.um.push.flutter_s_umeng_push;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -47,9 +48,42 @@ public class FlutterSUmengPushPlugin implements FlutterPlugin, MethodCallHandler
 
   private static final String TAG = "UPush";
 
+  private static UMessage sOfflineMsgCache;
+
   private final Handler mHandler = new Handler(Looper.getMainLooper());
 
   private Context mContext = null;
+
+  public static void setOfflineMsg(final UMessage msg) {
+    if (msg == null) {
+      return;
+    }
+    final FlutterSUmengPushPlugin plugin = getInstance();
+    if (plugin != null) {
+      plugin.mHandler.post(() -> {
+        try {
+          if (plugin.channel != null) {
+            plugin.invokeMethodOnMainHandler("onOpenNotification", plugin.groupInvokeMethodArgs(msg));
+          }
+        } catch (Throwable e) {
+          e.printStackTrace();
+        }
+      });
+      return;
+    }
+    sOfflineMsgCache = msg;
+  }
+
+  @SuppressLint("StaticFieldLeak")
+  private static FlutterSUmengPushPlugin sInstance;
+
+  public static FlutterSUmengPushPlugin getInstance() {
+    return sInstance;
+  }
+
+  public FlutterSUmengPushPlugin() {
+    sInstance = this;
+  }
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
@@ -229,6 +263,19 @@ public class FlutterSUmengPushPlugin implements FlutterPlugin, MethodCallHandler
       }
     });
     executeOnMain(result, null);
+
+    if (sOfflineMsgCache != null) {
+      sInstance.mHandler.post(() -> {
+        try {
+          if (sInstance.channel != null) {
+            sInstance.invokeMethodOnMainHandler("onOpenNotification", sInstance.groupInvokeMethodArgs(sOfflineMsgCache));
+          }
+          sOfflineMsgCache = null;
+        } catch (Throwable e) {
+          e.printStackTrace();
+        }
+      });
+    }
   }
 
   private void getDeviceToken(MethodCall call, Result result) {

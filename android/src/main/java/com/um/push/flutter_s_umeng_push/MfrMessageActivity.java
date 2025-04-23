@@ -14,7 +14,6 @@ import com.umeng.message.common.UPLog;
 import com.umeng.message.UmengNotifyClick;
 import com.umeng.message.entity.UMessage;
 
-import androidx.annotation.Nullable;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,7 +21,7 @@ import java.util.Set;
  * @author sujialong
  * @date 2022/11/2
  */
-class MfrMessageActivity extends Activity {
+public class MfrMessageActivity extends Activity {
 
     private static final String TAG = "MfrMessageActivity";
 
@@ -32,14 +31,15 @@ class MfrMessageActivity extends Activity {
         protected void onMessage(UMessage uMessage) {
             final String body = uMessage.getRaw().toString();
             UPLog.d(TAG, "body: " + body);
+            FlutterSUmengPushPlugin.setOfflineMsg(uMessage);
             launchApp(uMessage);
             finish();
         }
     };
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         mNotificationClick.onCreate(this, getIntent());
     }
 
