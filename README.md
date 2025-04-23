@@ -19,13 +19,30 @@ dependencies:
 import 'package:flutter_s_umeng_push/flutter_s_umeng_push.dart';
 
 ///初始化友盟sdk，在所有方法使用之前
-FlutterUmengPush.init(
+await FlutterUmengPush.init(
   appKey: '你的友盟应用appkey',
   messageSecret: '你的友盟应用messageSecret',
   logEnabled: false,
+  // Android离线通知配置 华为与vivo需在AndroidManifest.xml中配置，具体请查看实例项目的AndroidManifest.xml文件
+  xiaomiAppId: '小米AppId',
+  xiaomiAppKey: '小米AppKey',
+  meizuAppId: '魅族AppId',
+  meizuAppKey: '魅族AppKey',
+  oppoAppKey: 'oppo应用AppKey',
+  oppoAppMasterSecret: 'oppo应用AppMasterSecret',
 );
 
+/// 友盟推送注册
+await FlutterUmengPush.register();
 ```
+华为与vivo需在AndroidManifest.xml中配置：
+```javascript
+<meta-data android:name="com.vivo.push.app_id" android:value="app_id" />
+<meta-data android:name="com.vivo.push.api_key" android:value="api_key" />
+<meta-data android:name="com.huawei.hms.client.appid" android:value="appid=xxx" />
+```
+如何获取这些配置信息，请查看[友盟官方文档](https://developer.umeng.com/docs/67966/detail/98589)。
+
 
 ## 方法
 

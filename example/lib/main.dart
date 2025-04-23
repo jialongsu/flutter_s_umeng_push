@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       logEnabled: false,
     );
 
-    /// 监听推送事件
+    /// 监听推送事件，注：监听事件要声明在register方法前，否则无法接收到离线通知
     FlutterUmengPush.addEventHandler(
       onOpenNotification: (message) async {
         setState(() {
@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
     FlutterUmengPush.setMessageCallback((message) {
       print('获取Android自定义推送消息===========${message.toJson()}');
     });
-    FlutterUmengPush.setAlias('13002115118', 'ios');
+    FlutterUmengPush.setAlias('Alias', 'ios');
   }
 
   @override
