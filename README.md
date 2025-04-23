@@ -48,7 +48,6 @@ await FlutterUmengPush.register();
 com.um.push.flutter_s_umeng_push.MfrMessageActivity
 ```
 
-
 ## 方法
 
 |Method|Description  |Result|
