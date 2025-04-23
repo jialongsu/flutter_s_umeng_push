@@ -43,6 +43,11 @@ await FlutterUmengPush.register();
 ```
 如何获取这些配置信息，请查看[友盟官方文档](https://developer.umeng.com/docs/67966/detail/98589)。
 
+当使用厂商通道发送离线通知时，需要填写打开指定系统弹窗页面acitivity的完整包路径，请使用：
+```javascript
+com.um.push.flutter_s_umeng_push.MfrMessageActivity
+```
+
 
 ## 方法
 
