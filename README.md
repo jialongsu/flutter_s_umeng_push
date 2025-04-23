@@ -23,7 +23,7 @@ await FlutterUmengPush.init(
   appKey: '你的友盟应用appkey',
   messageSecret: '你的友盟应用messageSecret',
   logEnabled: false,
-  // Android离线通知配置 华为与vivo需在AndroidManifest.xml中配置，具体请查看实例项目的AndroidManifest.xml文件
+  // Android离线通知配置，华为与vivo需在AndroidManifest.xml中配置，具体请查看实例项目的AndroidManifest.xml文件
   xiaomiAppId: '小米AppId',
   xiaomiAppKey: '小米AppKey',
   meizuAppId: '魅族AppId',
