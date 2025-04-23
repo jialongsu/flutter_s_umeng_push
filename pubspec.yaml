@@ -1,6 +1,6 @@
 name: flutter_s_umeng_push
 description: 友盟推送的flutter插件，支持Android和ios
-version: 0.3.0
+version: 0.4.0
 homepage: https://github.com/jialongsu/flutter_s_umeng_push
 
 environment:
